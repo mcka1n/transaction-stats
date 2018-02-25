@@ -1,6 +1,10 @@
 # transaction-stats
 Basic REST API to calculate real time statistics from 'event's a.k.a `Transaction`s.
 
+- [POST /transactions](#post-transactions)
+- [GET /statistics](#get-statistics)
+- [Improvements](#things-to-improve-in-a-future)
+
 ## Development
 
 This is a Work In Progress project based on the [Spring boot framework](https://projects.spring.io/spring-boot/).
@@ -48,6 +52,9 @@ It's worth to notice that you as the API client can expect to have consistent re
 `GET /statistics`
 
 ### Response
+
+HTTP Status: `200. OK`
+
 ```
 {
     "min": 1.2,
@@ -66,7 +73,7 @@ It's worth to notice that you as the API client can expect to have consistent re
   - If we only care about the last 60 minutes. It would be nice to remove every minute the past statistics.
   - Currently I'm inserting in the `ConcurrentHashMap` transactions in future timestamps, I made it because we could have scheduled *transactions* that we need to take in consideration in the stats.
    - It's worth to notice that these future/scheduled *transactions* are being stored in the correct `DateTime`. 
-  - Maybe a Redis could help to deal with these key-value storage in the future.
-- Probably YAGNI (for now). But I would propose Cassandra for this use-case. Basically we have a Time-Series case here and Cassandra provides good tooling for these problems. 
-  - Cassandra is easy to scale (It can handle up to 1 million requests per second).
+  - Maybe Redis could help to deal with these key-value storage in the future.
+- Probably [YAGNI](https://en.wikipedia.org/wiki/You_aren%27t_gonna_need_it) (for now). But I would propose [Cassandra](http://cassandra.apache.org/) for this use-case. Basically we have a Time-Series case here and Cassandra provides good tooling for these problems. 
+  - [Cassandra](http://cassandra.apache.org/) is easy to scale (It can handle up to 1 million requests per second).
    - Fast writes and relativity fast reads with compounded indexes.
