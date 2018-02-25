@@ -61,6 +61,31 @@ public class StatisticService {
 
     public ConcurrentHashMap<String, Double> getCurrentStatistics() {
         String time = dateFormat.format(new Date());
-        return timeMap.get(time);
+        return CalculateAverage(time);
+    }
+
+    private ConcurrentHashMap<String, Double> CalculateAverage(String time){
+        ConcurrentHashMap<String, Double> statisticMap = timeMap.get(time);
+        Double initialValue = (double) 0;
+
+        if (statisticMap == null) {
+            statisticMap = new ConcurrentHashMap<String, Double>();
+            statisticMap.put("sum", initialValue);
+            statisticMap.put("max", initialValue);
+            statisticMap.put("min", initialValue);
+            statisticMap.put("count", initialValue);
+        }
+
+        Double sum = statisticMap.get("sum");
+        Double count = statisticMap.get("count");
+        Double avg = initialValue;
+
+        if (count > 0){
+            avg = sum/count;
+        }
+
+        statisticMap.put("avg", avg);
+
+        return statisticMap;
     }
 }
