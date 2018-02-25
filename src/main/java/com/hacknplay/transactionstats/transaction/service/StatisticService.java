@@ -23,7 +23,6 @@ public class StatisticService {
         Date realDateFromTimestamp = new Date(realTimestamp.getTime()*1000);    // Due to milliseconds
         String time = dateFormat.format(realDateFromTimestamp);
 
-//        String time = dateFormat.format(new Date());
         ConcurrentHashMap<String, Double> statisticMap = timeMap.get(time);
         if (statisticMap == null) {
             statisticMap = new ConcurrentHashMap<String, Double>();
