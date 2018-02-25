@@ -2,6 +2,7 @@ package com.hacknplay.transactionstats.transaction.service;
 
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.ConcurrentHashMap;
@@ -18,7 +19,11 @@ public class StatisticService {
     }
 
     public void addTransaction(final Double amount, final Long timestamp) {
-        String time = dateFormat.format(new Date());
+        Timestamp realTimestamp = new Timestamp(timestamp);
+        Date realDateFromTimestamp = new Date(realTimestamp.getTime()*1000);    // Due to milliseconds
+        String time = dateFormat.format(realDateFromTimestamp);
+
+//        String time = dateFormat.format(new Date());
         ConcurrentHashMap<String, Double> statisticMap = timeMap.get(time);
         if (statisticMap == null) {
             statisticMap = new ConcurrentHashMap<String, Double>();
